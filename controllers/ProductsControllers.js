@@ -1,5 +1,5 @@
 const ProductModel = require("../models/ProductSchema");
-
+const { validationResult } = require("express-validator");
 const getProducts = async (req, res) => {
   try {
     const getAllProducts = await ProductModel.find();
@@ -22,6 +22,11 @@ const getOneProduct = async (req, res) => {
 
 const createProduct = async (req, res) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ msg: errors.array() });
+    }
+
     const { titulo, precio, codigo } = req.body;
     if (!titulo || !precio || !codigo) {
       res.status(500).json({ mensaje: "Algun campo esta vacio" });

@@ -8,6 +8,7 @@ const {
   deleteProduct,
   getOneProduct,
 } = require("../controllers/ProductsControllers");
+const multer = require("../middlewars/multer");
 
 route.get("/", getProducts);
 route.get(
@@ -16,7 +17,7 @@ route.get(
   getOneProduct
 );
 route.post(
-  "/",
+  "/",multer.single('imagen'),
   [
     check("titulo", "Campo Vacio").notEmpty(),
     check("precio", "Campo Vacio").notEmpty(),

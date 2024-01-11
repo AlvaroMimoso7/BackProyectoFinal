@@ -10,7 +10,11 @@ const {
 } = require("../controllers/ProductsControllers");
 
 route.get("/", getProducts);
-route.get("/:id", getOneProduct);
+route.get(
+  "/:id",
+  [check("id", "Formato Incorrecto").isMongoId()],
+  getOneProduct
+);
 route.post(
   "/",
   [
@@ -20,6 +24,14 @@ route.post(
   ],
   createProduct
 );
-route.put("/:id", updateProduct);
-route.delete("/:id", deleteProduct);
+route.put(
+  "/:id",
+  [check("id", "Formato Incorrecto").isMongoId()],
+  updateProduct
+);
+route.delete(
+  "/:id",
+  [check("id", "Formato Incorrecto").isMongoId()],
+  deleteProduct
+);
 module.exports = route;

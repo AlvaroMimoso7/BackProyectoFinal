@@ -1,11 +1,19 @@
 const UserModel = require("../models/UserSchema");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const resultValidator = require("../helpers/validatorResult");
+const { validationResult } = require("express-validator");
 
 const getUsers = async (req, res) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ msg: errors.array() });
+    }
     const getAllUsers = await UserModel.find();
-    res.status(200).json({ mensaje: "Usuarios", getAllUsers });
+    res
+      .status(200)
+      .json({ mensaje: "Todos Usuarios Encontrados", getAllUsers });
   } catch (error) {
     res.status(500).json({ mensaje: "Server Error", error });
   }
@@ -17,7 +25,6 @@ const getOneUser = async (req, res) => {
     if (!errors.isEmpty()) {
       return res.status(422).json({ msg: errors.array() });
     }
-
     const getUser = await UserModel.findOne({ _id: req.params.id });
     res.status(200).json({ msg: "Usuario encontrado", getUser });
   } catch (error) {
@@ -27,6 +34,10 @@ const getOneUser = async (req, res) => {
 
 const createUser = async (req, res) => {
   try {
+    const errors = resultValidator(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ msg: errors.array() });
+    }
     const { nombreUsuario, contrasenia, emailUsuario } = req.body;
     const userExist = await UserModel.findOne({ nombreUsuario });
     if (userExist) {
@@ -47,6 +58,11 @@ const createUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ msg: errors.array() });
+    }
+
     const updateUser = await UserModel.findByIdAndUpdate(
       { _id: req.params.id },
       req.body,
@@ -59,11 +75,15 @@ const updateUser = async (req, res) => {
 };
 const deleteUser = async (req, res) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ msg: errors.array() });
+    }
     const userExist = await UserModel.findOne({ _id: req.params.id });
     if (!userExist) {
       res
         .status(400)
-        .json({ msg: "ID incorrecto. Usuario no existe en la db" });
+        .json({ msg: "ID incorrecto. Usuario no existe en la Base de Datos" });
       return;
     }
     await UserModel.findByIdAndDelete({ _id: req.params.id });
@@ -98,7 +118,9 @@ const loginUser = async (req, res) => {
 
     const token = jwt.sign(payLoad, process.env.SECRET_KEY);
 
-    res.status(200).json({ msg: "Usuario Logueado", token });
+    res
+      .status(200)
+      .json({ msg: "Usuario Logueado", token, role: userExist.role });
   } catch (error) {
     res.status(500).json({ mensaje: "Server error", error });
   }

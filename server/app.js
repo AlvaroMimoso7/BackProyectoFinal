@@ -1,5 +1,5 @@
 const express = require("express");
-
+const morgan = require("morgan");
 class Server {
   constructor() {
     this.app = express();
@@ -8,6 +8,7 @@ class Server {
   }
   middlewars() {
     this.app.use(express.json());
+    this.app.use(morgan("dev"));
   }
 
   routes() {

@@ -96,7 +96,9 @@ const deleteUser = async (req, res) => {
 const loginUser = async (req, res) => {
   try {
     const { nombreUsuario, contrasenia } = req.body;
+    
     const userExist = await UserModel.findOne({ nombreUsuario });
+    console.log(userExist);
     if (!userExist) {
       res.status(400).json({ msg: "Usuario y/o contrasenia son incorrectas" });
       return;

@@ -11,7 +11,7 @@ const { check } = require("express-validator");
 const auth = require("../middlewars/auth");
 const route = express.Router();
 
-route.get("/", auth("admin"), getUsers);
+route.get("/", getUsers);
 route.get("/:id", [check("id", "Formato Incorrecto").isMongoId()], getOneUser);
 route.post(
   "/",

@@ -4,12 +4,13 @@ const path = require("path");
 module.exports = multer({
   storage: multer.diskStorage({}),
   fileFilter: (req, file, cb) => {
-    let extencion = path.extname(file.originalname);
+    let extension = path.extname(file.originalname);
 
-    if (extencion !== ".png" && extencion !== ".jpg" && extencion !== ".jpeg") {
+    if (extension !== ".png" && extension !== ".jpg" && extension !== ".jpeg") {
       return cb(new Error("Formato Incorrecto"), false);
     }
 
     cb(null, true);
   },
 });
+

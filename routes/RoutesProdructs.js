@@ -7,6 +7,8 @@ const {
   updateProduct,
   deleteProduct,
   getOneProduct,
+  addProdCart,
+  addProdFav,
 } = require("../controllers/ProductsControllers");
 const multer = require("../middlewars/multer");
 
@@ -17,7 +19,8 @@ route.get(
   getOneProduct
 );
 route.post(
-  "/",multer.single('imagen'),
+  "/",
+  multer.single("imagen"),
   [
     check("titulo", "Campo Vacio").notEmpty(),
     check("precio", "Campo Vacio").notEmpty(),
@@ -25,6 +28,8 @@ route.post(
   ],
   createProduct
 );
+route.post("/cart/:idUser/:idProd/:idCart", addProdCart);
+route.post("/fav/:idUser/:idProd/:idFav", addProdFav);
 route.put(
   "/:id",
   [check("id", "Formato Incorrecto").isMongoId()],

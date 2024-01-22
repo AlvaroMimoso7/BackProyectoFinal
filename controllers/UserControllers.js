@@ -3,6 +3,8 @@ const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const resultValidator = require("../helpers/validatorResult");
 const { validationResult } = require("express-validator");
+const CartModel = require("../models/cartSchema");
+const FavModel = require("../models/favSchema");
 
 const getUsers = async (req, res) => {
   try {
@@ -49,7 +51,15 @@ const createUser = async (req, res) => {
 
     let salt = bcryptjs.genSaltSync(10);
     newUser.contrasenia = bcryptjs.hashSync(contrasenia, salt);
+    const newCart = new CartModel({ idUsuario: newUser._id });
+    const newFav = new FavModel({ idUsuario: newUser._id });
+
+    newUser.idCarrito = newCart._id;
+    newUser.idFavoritos = newFav._id;
+
     await newUser.save();
+    await newCart.save();
+    await newFav.save();
     res.status(201).json({ msg: "Usuario creado con exito", newUser });
   } catch (error) {
     res.status(500).json({ mensaje: "Server error", error });
@@ -96,7 +106,7 @@ const deleteUser = async (req, res) => {
 const loginUser = async (req, res) => {
   try {
     const { nombreUsuario, contrasenia } = req.body;
-    
+
     const userExist = await UserModel.findOne({ nombreUsuario });
     console.log(userExist);
     if (!userExist) {
@@ -122,7 +132,12 @@ const loginUser = async (req, res) => {
 
     res
       .status(200)
-      .json({ msg: "Usuario Logueado", token, role: userExist.role });
+      .json({
+        msg: "Usuario Logueado",
+        token,
+        role: userExist.role,
+        idUsuario: userExist._id,
+      });
   } catch (error) {
     res.status(500).json({ mensaje: "Server error", error });
   }

@@ -1,6 +1,9 @@
 const ProductModel = require("../models/ProductSchema");
 const { validationResult } = require("express-validator");
 const cloudinary = require("../helpers/cloudinary");
+const UserModel = require("../models/UserSchema");
+const CartModel = require("../models/cartSchema");
+const FavModel = require("../models/favSchema");
 
 const resultValidator = (req) => {
   const errors = validationResult(req);
@@ -98,10 +101,73 @@ const deleteProduct = async (req, res) => {
   }
 };
 
+const addProdCart = async (req, res) => {
+  try {
+    const user = await UserModel.findOne({ _id: req.params.idUser });
+    const product = await ProductModel.findOne({ _id: req.params.idProd });
+    const cart = await CartModel.findOne({ _id: req.params.idCart });
+
+    if (user.idCarrito.toString() === cart._id.toString()) {
+      const prodExistCart = cart.productos.filter(
+        () => prod._id.toString() === product._id.toString()
+      );
+
+      console.log(prodExistCart);
+      if (prodExistCart.length) {
+        return res
+          .status(400)
+          .json({ msg: "Producto ya existe en el carrito" });
+      }
+
+      cart.productos.push(product);
+      await cart.save();
+      res.status(200).json({ msg: "Producto cargado correctamente" });
+      console.log(cart);
+      res.send("ok");
+    } else {
+      console.log("ID Carrito y/o usuario incorrecto");
+      res.send("no ok");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const addProdFav = async (req, res) => {
+  try {
+    const user = await UserModel.findOne({ _id: req.params.idUser });
+    const product = await ProductModel.findOne({ _id: req.params.idProd });
+    const fav = await FavModel.findOne({ _id: req.params.idFav });
+
+    if (user.idFavoritos.toString() === fav._id.toString()) {
+      const prodExistFav = fav.favoritos.filter(
+        (fav) => fav._id.toString() === product._id.toString()
+      );
+
+      if (prodExistFav.length) {
+        return res.status(400).json({ msg: "Producto ya existe en Favoritos" });
+      }
+
+      fav.favoritos.push(product);
+      await fav.save();
+      res.status(200).json({ msg: "Producto cargado correctamente" });
+      console.log(cart);
+      res.send("ok");
+    } else {
+      console.log("ID Carrito y/o usuario incorrecto");
+      res.send("no ok");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   getProducts,
   getOneProduct,
   createProduct,
   updateProduct,
   deleteProduct,
+  addProdCart,
+  addProdFav,
 };

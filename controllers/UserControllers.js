@@ -124,20 +124,20 @@ const loginUser = async (req, res) => {
     }
 
     const payLoad = {
-      id: userExist._id,
+      idUsuario: userExist._id,
+      idCarrito: userExist.idCarrito,
+      idFavorito: userExist.idFavoritos,
       role: userExist.role,
     };
 
     const token = jwt.sign(payLoad, process.env.SECRET_KEY);
 
-    res
-      .status(200)
-      .json({
-        msg: "Usuario Logueado",
-        token,
-        role: userExist.role,
-        idUsuario: userExist._id,
-      });
+    res.status(200).json({
+      msg: "Usuario Logueado",
+      token,
+      role: userExist.role,
+      idUsuario: userExist._id,
+    });
   } catch (error) {
     res.status(500).json({ mensaje: "Server error", error });
   }

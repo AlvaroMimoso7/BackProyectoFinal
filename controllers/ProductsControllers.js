@@ -103,13 +103,13 @@ const deleteProduct = async (req, res) => {
 
 const addProdCart = async (req, res) => {
   try {
-    const user = await UserModel.findOne({ _id: req.params.idUser });
+    const user = await UserModel.findOne({ _id: req.idUsuario });
     const product = await ProductModel.findOne({ _id: req.params.idProd });
-    const cart = await CartModel.findOne({ _id: req.params.idCart });
+    const cart = await CartModel.findOne({ _id: req.idCarrito });
 
     if (user.idCarrito.toString() === cart._id.toString()) {
       const prodExistCart = cart.productos.filter(
-        () => prod._id.toString() === product._id.toString()
+        (prod) => prod._id.toString() === product._id.toString()
       );
 
       console.log(prodExistCart);
@@ -135,9 +135,9 @@ const addProdCart = async (req, res) => {
 
 const addProdFav = async (req, res) => {
   try {
-    const user = await UserModel.findOne({ _id: req.params.idUser });
+    const user = await UserModel.findOne({ _id: req.idUsuario });
     const product = await ProductModel.findOne({ _id: req.params.idProd });
-    const fav = await FavModel.findOne({ _id: req.params.idFav });
+    const fav = await FavModel.findOne({ _id: req.idFavarito });
 
     if (user.idFavoritos.toString() === fav._id.toString()) {
       const prodExistFav = fav.favoritos.filter(

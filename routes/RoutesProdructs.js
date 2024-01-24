@@ -11,6 +11,7 @@ const {
   addProdFav,
 } = require("../controllers/ProductsControllers");
 const multer = require("../middlewars/multer");
+const auth = require("../middlewars/auth");
 
 route.get("/", getProducts);
 route.get(
@@ -28,8 +29,8 @@ route.post(
   ],
   createProduct
 );
-route.post("/cart/:idUser/:idProd/:idCart", addProdCart);
-route.post("/fav/:idUser/:idProd/:idFav", addProdFav);
+route.post("/cart/:idProd", auth("user"), addProdCart);
+route.post("/fav/:idProd", auth("user"), addProdFav);
 route.put(
   "/:id",
   [check("id", "Formato Incorrecto").isMongoId()],

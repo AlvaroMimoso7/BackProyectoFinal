@@ -1,7 +1,10 @@
 const express = require("express");
-const { getAllFavoritos } = require("../controllers/FavoritosControllers");
-const route = express.Router();
+const {
+  getAllFavoritos,
+  deleteOneProdFav,
+} = require("../controllers/FavoritosControllers");
+const router = express.Router();
 
-route.get("/", getAllFavoritos);
-
-module.exports = route;
+router.get("/", getAllFavoritos);
+router.delete("/:idFav/:idProd", deleteOneProdFav);
+module.exports = router;

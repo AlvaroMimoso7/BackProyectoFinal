@@ -14,10 +14,7 @@ class Server {
   }
 
   routes() {
-    this.app.use("/api/products", require("../routes/RoutesProdructs"));
-    this.app.use("/api/users", require("../routes/RoutesUser"));
-    this.app.use("/api/favs", require("../routes/RoutesFavs"));
-    this.app.use("/api/carts", require("../routes/RotesCarts"));
+    this.app.use("/api", require("../routes"));
   }
   listen() {
     this.app.listen(3001, () => {

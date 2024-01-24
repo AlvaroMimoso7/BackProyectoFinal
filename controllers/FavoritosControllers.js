@@ -3,7 +3,7 @@ const FavModel = require("../models/favSchema");
 
 const getAllFavoritos = async (req, res) => {
   try {
-    const getFavs = await FavModel.find();
+    const getFavs = await FavModel.findOne({_id:req.idFavorito});
     res.status(200).json({ msg: "Favoritos", getFavs });
   } catch (error) {
     console.log(error);
@@ -11,7 +11,7 @@ const getAllFavoritos = async (req, res) => {
 };
 const deleteOneProdFav = async (req, res) => {
   try {
-    const sectionFav = await FavModel.findOne({ _id: req.params.idFav });
+    const sectionFav = await FavModel.findOne({ _id: req.params.idFavorito });
     const product = await ProductModel.findOne({ _id: req.params.idProd });
 
     const productosABorrar = sectionFav.favoritos.filter(

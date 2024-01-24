@@ -3,8 +3,9 @@ const {
   getAllFavoritos,
   deleteOneProdFav,
 } = require("../controllers/FavoritosControllers");
+const auth = require("../middlewars/auth");
 const router = express.Router();
 
-router.get("/", getAllFavoritos);
-router.delete("/:idFav/:idProd", deleteOneProdFav);
+router.get("/", auth("users"), getAllFavoritos);
+router.delete("/:idProd", auth("users"), deleteOneProdFav);
 module.exports = router;

@@ -27,6 +27,7 @@ route.post(
     check("precio", "Campo Vacio").notEmpty(),
     check("codigo", "Campo Vacio").notEmpty(),
   ],
+  auth("admin"),
   createProduct
 );
 route.post("/cart/:idProd", auth("user"), addProdCart);
@@ -34,11 +35,13 @@ route.post("/fav/:idProd", auth("user"), addProdFav);
 route.put(
   "/:id",
   [check("id", "Formato Incorrecto").isMongoId()],
+  auth("admin"),
   updateProduct
 );
 route.delete(
   "/:id",
   [check("id", "Formato Incorrecto").isMongoId()],
+  auth("admin"),
   deleteProduct
 );
 module.exports = route;

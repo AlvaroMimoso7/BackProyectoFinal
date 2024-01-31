@@ -14,7 +14,7 @@ const getAllCarts = async (req, res) => {
 };
 const deleteOneProdCart = async (req, res) => {
   try {
-    const sectionCart = await CartModel.findOne({ _id: req.params.idCart });
+    const sectionCart = await CartModel.findOne({ _id: req.idCart });
     const product = await ProductModel.findOne({ _id: req.params.idProd });
 
     const productosABorrar = sectionCart.productos.filter(

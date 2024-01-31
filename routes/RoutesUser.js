@@ -12,7 +12,7 @@ const auth = require("../middlewars/auth");
 const route = express.Router();
 
 route.get("/", auth("admin"), getUsers);
-route.get("/:id",auth('admin'), getOneUser);
+route.get("/:id",auth('user'), getOneUser);
 route.post(
   "/",
   [

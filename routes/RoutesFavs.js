@@ -4,8 +4,9 @@ const {
   deleteOneProdFav,
 } = require("../controllers/FavoritosControllers");
 const auth = require("../middlewars/auth");
+const roles = require("../helpers/roles");
 const router = express.Router();
 
-router.get("/", auth("users"), getAllFavoritos);
-router.delete("/:idProd", auth("users"), deleteOneProdFav);
+router.get("/", auth("user"), getAllFavoritos);
+router.delete("/:idProd", auth(roles.user), deleteOneProdFav);
 module.exports = router;

@@ -31,7 +31,7 @@ route.post(
   createProduct
 );
 route.post("/cart/:idProd", auth("user"), addProdCart);
-route.post("/fav/:idProd", auth("user"), addProdFav);
+route.post("/fav/:idProd",auth("user"),addProdFav);
 route.put(
   "/:id",
   [check("id", "Formato Incorrecto").isMongoId()],

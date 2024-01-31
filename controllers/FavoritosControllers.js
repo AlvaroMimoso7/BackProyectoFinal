@@ -4,9 +4,10 @@ const FavModel = require("../models/favSchema");
 const getAllFavoritos = async (req, res) => {
   try {
     const getFavs = await FavModel.findOne({_id:req.idFavorito});
+    console.log(getFavs);
     res.status(200).json({ msg: "Favoritos", getFavs });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({msg:'Ocurrio un error'});
   }
 };
 const deleteOneProdFav = async (req, res) => {
@@ -30,7 +31,7 @@ const deleteOneProdFav = async (req, res) => {
     await sectionFav.save();
     res.status(200).json({ msg: "Producto eliminado de favoritos" });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({msg:'ocurrio un error'})
   }
 };
 

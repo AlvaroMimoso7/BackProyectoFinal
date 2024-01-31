@@ -12,7 +12,7 @@ const auth = require("../middlewars/auth");
 const route = express.Router();
 
 route.get("/", auth("admin"), getUsers);
-route.get("/:id", [check("id", "Formato Incorrecto").isMongoId()], getOneUser);
+route.get("/:id",auth('user'), getOneUser);
 route.post(
   "/",
   [
@@ -31,10 +31,10 @@ route.post(
   ],
   loginUser
 );
-route.put("/:id", [check("id", "Formato Incorrecto").isMongoId()], updateUser);
+route.put("/:id", [check("id", "Formato Incorrecto").isMongoId()],auth('admin'), updateUser);
 route.delete(
   "/:id",
-  [check("id", "Formato Incorrecto").isMongoId()],
+  [check("id", "Formato Incorrecto").isMongoId()],auth('admin'),
   deleteUser
 );
 module.exports = route;

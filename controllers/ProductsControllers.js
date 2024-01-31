@@ -103,6 +103,7 @@ const deleteProduct = async (req, res) => {
 
 const addProdCart = async (req, res) => {
   try {
+    console.log('llega');
     const user = await UserModel.findOne({ _id: req.idUsuario });
     const product = await ProductModel.findOne({ _id: req.params.idProd });
     const cart = await CartModel.findOne({ _id: req.idCarrito });
@@ -134,11 +135,12 @@ const addProdCart = async (req, res) => {
 };
 
 const addProdFav = async (req, res) => {
+  console.log(req.params, 'soy el req');
   try {
     const user = await UserModel.findOne({ _id: req.idUsuario });
     const product = await ProductModel.findOne({ _id: req.params.idProd });
-    const fav = await FavModel.findOne({ _id: req.idFavarito });
-
+    const fav = await FavModel.findOne({ _id: req.idFavorito });
+console.log(user);
     if (user.idFavoritos.toString() === fav._id.toString()) {
       const prodExistFav = fav.favoritos.filter(
         (fav) => fav._id.toString() === product._id.toString()
@@ -159,6 +161,7 @@ const addProdFav = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
+    res.send(error)
   }
 };
 

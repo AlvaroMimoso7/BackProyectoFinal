@@ -14,12 +14,16 @@ const getAllCarts = async (req, res) => {
 };
 const deleteOneProdCart = async (req, res) => {
   try {
-    const sectionCart = await CartModel.findOne({ _id: req.idCart });
+    
+    const sectionCart = await CartModel.findOne({ _id: req.idCarrito });
+    console.log(sectionCart);
+    
     const product = await ProductModel.findOne({ _id: req.params.idProd });
-
+    console.log(product);
     const productosABorrar = sectionCart.productos.filter(
       (prod) => prod._id.toString() === product._id.toString()
     );
+    console.log(productosABorrar);
     if (!productosABorrar.length) {
       return res.status(400).json({ msg: "iD incorrecto" });
     }

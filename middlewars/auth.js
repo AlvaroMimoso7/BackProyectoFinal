@@ -1,12 +1,11 @@
 const jwt = require("jsonwebtoken");
+const { token } = require("morgan");
 
 const auth = (role) => async (req, res, next) => {
   try {
     console.log("auth");
     console.log(req.header("Authorization"));
-    const authHeader = req.header("Authorization");
-    const token = authHeader.split(" ")[1];
-    console.log(token);
+    const token = req.header("Authorization").replace("Bearer ", "");
     if (!token) {
       return res.status(401).json({ mensaje: "El token no ha sido enviado" });
     }

@@ -12,7 +12,7 @@ const getAllFavoritos = async (req, res) => {
 };
 const deleteOneProdFav = async (req, res) => {
   try {
-    const sectionFav = await FavModel.findOne({ _id: req.params.idFavorito });
+    const sectionFav = await FavModel.findOne({ _id: req.idFavorito });
     const product = await ProductModel.findOne({ _id: req.params.idProd });
 
     const productosABorrar = sectionFav.favoritos.filter(

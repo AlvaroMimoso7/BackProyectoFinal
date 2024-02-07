@@ -4,23 +4,33 @@ const cors = require("cors");
 class Server {
   constructor() {
     this.app = express();
-    this.middlewars();
+    this.middlewares();
     this.routes();
   }
-  middlewars() {
+
+  middlewares() {
+    // Configura CORS
+    this.app.use(cors({
+      origin: 'https://proyecto-final-front-seven.vercel.app',
+      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+      credentials: true,
+    }));
+
     this.app.use(express.json());
     this.app.use(morgan("dev"));
     this.app.use(express.urlencoded({ extended: true }));
-    this.app.use(cors());
   }
 
   routes() {
     this.app.use("/api", require("../routes"));
   }
+
   listen() {
     this.app.listen(3001, () => {
       console.log("Servidor Corriendo en el puerto:" + 3001);
     });
   }
 }
+
 module.exports = Server;
+

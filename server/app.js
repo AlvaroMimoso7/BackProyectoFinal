@@ -11,7 +11,7 @@ class Server {
   middlewares() {
     // Configura CORS
     this.app.use(cors({
-      origin: 'https://proyecto-final-front-seven.vercel.app',
+      origin: '*',
       methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
       credentials: true,
     }));

@@ -9,11 +9,10 @@ class Server {
   }
 
   middlewares() {
-    this.app.use(cors({
-      origin: 'https://proyecto-final-front-seven.vercel.app/',
-      methods: ['GET', 'POST'],
-      allowedHeaders: ['Content-Type', 'Authorization'],
-    }));
+    this.app.use(express.json());
+    this.app.use(express.urlencoded({ extended: true }));
+    this.app.use(morgan("dev"));
+    this.app.use(cors());
 
     this.app.use(express.json());
     this.app.use(morgan("dev"));

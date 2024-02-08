@@ -9,10 +9,11 @@ class Server {
   }
 
   middlewares() {
-    this.app.use(express.json());
-    this.app.use(express.urlencoded({ extended: true }));
-    this.app.use(morgan("dev"));
-    this.app.use(cors());
+    this.app.use(cors({
+      origin: '*',
+      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+      credentials: true,
+    }));
 
     this.app.use(express.json());
     this.app.use(morgan("dev"));

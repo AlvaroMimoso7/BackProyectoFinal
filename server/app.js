@@ -9,12 +9,13 @@ class Server {
   }
 
   middlewares() {
-    app.use((req, res, next) => {
+    this.app.use((req, res, next) => {
       res.setHeader('Access-Control-Allow-Origin', '*'); // Permite el acceso desde cualquier origen
-      res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); // Métodos permitidos
-      res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Encabezados permitidos
-      next();
-    });
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); // Métodos permitidos
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Encabezados permitidos
+  next();
+});
+    
 
     this.app.use(express.json());
     this.app.use(morgan("dev"));

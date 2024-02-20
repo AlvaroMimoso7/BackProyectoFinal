@@ -103,7 +103,7 @@ const deleteProduct = async (req, res) => {
 
 const addProdCart = async (req, res) => {
   try {
-    console.log('llega');
+    console.log("llega");
     const user = await UserModel.findOne({ _id: req.idUsuario });
     const product = await ProductModel.findOne({ _id: req.params.idProd });
     const cart = await CartModel.findOne({ _id: req.idCarrito });
@@ -135,25 +135,25 @@ const addProdCart = async (req, res) => {
 };
 
 const addProdFav = async (req, res) => {
-  console.log(req.params, 'soy el req');
+  console.log(req.idUsuario, "soy el req");
   try {
     const user = await UserModel.findOne({ _id: req.idUsuario });
     const product = await ProductModel.findOne({ _id: req.params.idProd });
     const fav = await FavModel.findOne({ _id: req.idFavorito });
-console.log(user);
+    console.log(fav);
     if (user.idFavoritos.toString() === fav._id.toString()) {
       const prodExistFav = fav.favoritos.filter(
         (fav) => fav._id.toString() === product._id.toString()
       );
 
       if (prodExistFav.length) {
+        console.log(prodExistFav);
         return res.status(400).json({ msg: "Producto ya existe en Favoritos" });
       }
 
       fav.favoritos.push(product);
       await fav.save();
       res.status(200).json({ msg: "Producto cargado correctamente" });
-      console.log(cart);
       res.send("ok");
     } else {
       console.log("ID Carrito y/o usuario incorrecto");
@@ -161,7 +161,7 @@ console.log(user);
     }
   } catch (error) {
     console.log(error);
-    res.send(error)
+    res.send(error);
   }
 };
 

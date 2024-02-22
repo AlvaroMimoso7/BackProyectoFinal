@@ -6,6 +6,7 @@ const auth = (role) => async (req, res, next) => {
     console.log("auth");
     console.log(req.header("Authorization"));
     const token = req.header("Authorization").replace("Bearer ", "");
+    console.log(token);
     if (!token) {
       return res.status(401).json({ mensaje: "El token no ha sido enviado" });
     }

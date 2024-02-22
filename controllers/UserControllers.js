@@ -80,7 +80,9 @@ const updateUser = async (req, res) => {
     );
     res.status(200).json({ msg: "Usuario Actualizado", updateUser });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ mensaje: "Server error", error });
+    
   }
 };
 const deleteUser = async (req, res) => {

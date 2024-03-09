@@ -3,15 +3,13 @@ const { token } = require("morgan");
 
 const auth = (role) => async (req, res, next) => {
   try {
-    console.log("auth");
-    console.log(req.header("Authorization"));
+    console.log("auth",req.header("Authorization"));
     const token = req.header("Authorization").replace("Bearer ", "");
-    console.log(token);
     if (!token) {
       return res.status(401).json({ mensaje: "El token no ha sido enviado" });
     }
     const verify = jwt.verify(token, process.env.SECRET_KEY);
-    console.log(verify);
+    console.log("verify",verify);
     if (verify && verify.role === role) {
       req.idUsuario = verify.idUsuario;
       req.idCarrito = verify.idCarrito;

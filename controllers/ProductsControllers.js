@@ -65,6 +65,7 @@ const createProduct = async (req, res) => {
       .status(201)
       .json({ mensaje: "El producto se creó correctamente", newProduct });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ mensaje: "Server Error", error });
   }
 };
@@ -103,8 +104,7 @@ const deleteProduct = async (req, res) => {
 
 const addProdCart = async (req, res) => {
   try {
-    console.log("llega");
-    const user = await UserModel.findOne({ _id: req.idUsuario });
+    const user = await UsersModel.findOne({ _id: req.idUsuario });
     const product = await ProductModel.findOne({ _id: req.params.idProd });
     const cart = await CartModel.findOne({ _id: req.idCarrito });
 
@@ -113,7 +113,6 @@ const addProdCart = async (req, res) => {
         (prod) => prod._id.toString() === product._id.toString()
       );
 
-      console.log(prodExistCart);
       if (prodExistCart.length) {
         return res
           .status(400)
@@ -123,10 +122,8 @@ const addProdCart = async (req, res) => {
       cart.productos.push(product);
       await cart.save();
       res.status(200).json({ msg: "Producto cargado correctamente" });
-      console.log(cart);
-      res.send("ok");
     } else {
-      console.log("ID Carrito y/o usuario incorrecto");
+      console.log("ID Carrito y/o Usuario incorrecto");
       res.send("no ok");
     }
   } catch (error) {
@@ -143,12 +140,12 @@ const addProdFav = async (req, res) => {
       const prodExistFav = fav.favoritos.filter(
         (fav) => fav._id.toString() === product._id.toString()
       );
-      
+
       if (prodExistFav.length) {
         console.log(prodExistFav);
         return res.status(400).json({ msg: "Producto ya existe en Favoritos" });
       }
-      
+
       fav.favoritos.push(product);
       await fav.save();
       res.status(200).json({ msg: "Producto cargado correctamente" });
@@ -156,7 +153,7 @@ const addProdFav = async (req, res) => {
       console.log("ID Carrito y/o usuario incorrecto");
     }
   } catch (error) {
-    res.status(500).json({msg: error})
+    res.status(500).json({ msg: error });
   }
 };
 

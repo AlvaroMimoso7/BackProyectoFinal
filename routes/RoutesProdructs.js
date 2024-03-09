@@ -22,12 +22,13 @@ route.get(
 route.post(
   "/",
   multer.single("imagen"),
-  [
-    check("titulo", "Campo Vacio").notEmpty(),
-    check("precio", "Campo Vacio").notEmpty(),
-    check("codigo", "Campo Vacio").notEmpty(),
-  ],
-  auth("admin"),
+  // auth("admin"),
+  // [
+  //   check("titulo", "Campo Vacio").notEmpty(),
+  //   check("precio", "Campo Vacio").notEmpty(),
+  //   check("codigo", "Campo Vacio").notEmpty(),
+  // ],
+  
   createProduct
 );
 route.post("/cart/:idProd", auth("user"), addProdCart);

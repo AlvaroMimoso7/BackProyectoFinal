@@ -17,6 +17,7 @@ const getProducts = async (req, res) => {
       return res.status(422).json({ msg: errors.array() });
     }
     const getAllProducts = await ProductModel.find();
+    console.log(getAllProducts)
     res
       .status(200)
       .json({ msg: "Todos Los Productos encontrados", getAllProducts });
